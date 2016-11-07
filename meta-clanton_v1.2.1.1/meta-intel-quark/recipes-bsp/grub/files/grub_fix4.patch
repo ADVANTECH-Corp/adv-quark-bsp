@@ -1,0 +1,66 @@
+diff --git a/efi/quark/boot_settings.c
++++ b/efi/quark/boot_settings.c
+@@ -25,6 +25,7 @@
+ 
+ /* Fetch grub configuration from first mass storage device, first partition  */
+ #define QUARK_CONF_DEFAULT_DEV_PART "(hd0,0)"
++#define QUARK_CONF_SECOND_DEV_PART "(hd1,0)"
+ 
+ /* Max size of (signed) configuration file buffer.  */
+ #define CFG_BUFFER_SIZE  0x2000
+@@ -67,6 +68,7 @@
+ {
+   char *next = NULL;
+   int spi_fallback = 0;
++  int i = 0;
+ 
+   /* First start by looking for grub.conf in File System.  If not found, then
+      look in SPI/Flash.  */
+@@ -88,11 +90,20 @@
+   directory of the file sytem.  As of now though, we're using a hardcoded
+   "/boot/grub/grub.conf" as this adheres to the grub standard.
+   */
++for (i = 0; i < 2; i++) {
+   grub_set_config_file ("/boot/grub/grub.conf");
+  
+   grub_memset (cfg_buffer, 0x0, sizeof (cfg_buffer));
+ 
+-  next = set_device (QUARK_CONF_DEFAULT_DEV_PART);
++  errnum = ERR_NONE;
++
++  if (!i) {
++    next = set_device (QUARK_CONF_DEFAULT_DEV_PART);
++  } else {
++    next = set_device (QUARK_CONF_SECOND_DEV_PART);
++    boot_secondary = 1;
++  }
++
+   if (NULL == next) 
+     {
+       /* errnum already set by set_device upon failure.  */
+@@ -108,7 +119,8 @@
+        unrecognised/corrupt, then error out without falling back to SPI.  */
+   if (0 == open_device () && errnum != ERR_FSYS_MOUNT)
+     {
+-      spi_fallback = 1;
++      spi_fallback = i;
++      continue;
+     }
+ 
+   saved_partition = current_partition;
+@@ -122,10 +134,13 @@
+       /* Fall back to SPI Flash if error (except for corrupted signature).  */
+       if (ERR_NONE != errnum && ERR_QUARK_VERIFICATION != errnum)
+         {
+-          spi_fallback = 1;
++          spi_fallback = i;
++          continue;
+         }
++      /* Break out from the loop if successfully loading the config file from dev */
++      break;
+     }
+-
++}
+ 
+   /* If SPI fallback is set and Grub was loaded from SPI Flash, then look up the
+      config from SPI Flash.  */

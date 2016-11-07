@@ -1,0 +1,16 @@
+diff --git a/stage2/builtins.c
++++ b/stage2/builtins.c
+@@ -3532,7 +3532,12 @@
+       print_root_device ();
+       return 0;
+     }
+-  
++ 
++  /* Override the arg to the hardcoded (hd1,0) if boot_secondary flag is set */ 
++  if (boot_secondary) {
++    arg = "(hd1,0)";
++  }
++
+   /* Call set_device to get the drive and the partition in ARG.  */
+   next = set_device (arg);
+   if (! next)
