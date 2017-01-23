@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote name="advantech-github" fetch="git://github.com/ADVANTECH-Corp/" />
+
+  <project remote="advantech-github" name="adv-quark-bsp" path="." revision="v1.2.0"/>
+
+</manifest>
+
