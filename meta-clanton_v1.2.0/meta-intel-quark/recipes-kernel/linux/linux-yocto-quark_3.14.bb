@@ -4,12 +4,12 @@ require recipes-kernel/linux/linux-yocto.inc
 # Override SRC_URI in a bbappend file to point at a different source
 # tree if you do not want to build from Linus' tree.
 
-#SRC_URI = "git://github.com/ADVANTECH-Corp/linux-quark.git;protocol=git;branch=linux-3.14.28_1.2.0"
+SRC_URI = "git://LINUX_YOCTO_REPO;protocol=file;bareclone=1;branch=LINUX_YOCTO_BRANCH"
 
-#SRC_URI += "file://quark_3.14.cfg"
-#SRC_URI += "file://quark-standard_3.14.scc"
-#SRC_URI_append_quark_iot-devkit = " file://kernel-perf-tool.scc"
-#SRC_URI += "${@base_contains('PACKAGECONFIG','quark-tpm','file://tpm.cfg','',d)}"
+SRC_URI += "file://quark_3.14.cfg"
+SRC_URI += "file://quark-standard_3.14.scc"
+SRC_URI_append_quark_iot-devkit = " file://kernel-perf-tool.scc"
+SRC_URI += "${@base_contains('PACKAGECONFIG','quark-tpm','file://tpm.cfg','',d)}"
 
 LINUX_VERSION ?= "3.14"
 LINUX_VERSION_EXTENSION ?= "-quark"
