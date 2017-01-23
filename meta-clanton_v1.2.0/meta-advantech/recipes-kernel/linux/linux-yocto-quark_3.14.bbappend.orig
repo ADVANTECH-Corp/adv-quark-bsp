@@ -1,0 +1,8 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+SRC_URI += "file://0001-menuconfig.patch"
+SRC_URI += "file://0002-advantech_watchdog_support.patch"
+SRC_URI += "file://0003-proc_board.patch"
+SRC_URI += "file://0004-ubc222-rs485-ioctl.patch"
+SRC_URI += "file://${DISTRO}.cfg"
+SRC_URI += "file://${BOARD}.cfg"
+LINUX_VERSION_EXTENSION = "-yocto-standard"

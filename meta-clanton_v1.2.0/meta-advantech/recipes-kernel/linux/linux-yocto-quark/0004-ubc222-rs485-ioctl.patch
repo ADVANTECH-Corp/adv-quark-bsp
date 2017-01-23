@@ -1,0 +1,18 @@
+--- linux-3.14.28.orig/drivers/tty/serial/serial_core.c	2015-11-29 20:30:52.754596980 +0800
++++ linux-3.14.28/drivers/tty/serial/serial_core.c	2015-12-01 17:44:57.195721549 +0800
+@@ -1169,6 +1169,15 @@
+ 	case TIOCSERSWILD: /* obsolete */
+ 		ret = 0;
+ 		break;
++	/*
++	 * H/W support, always return 0
++	 */
++#ifdef CONFIG_UBC222
++	case TIOCSRS485:
++	case TIOCGRS485:
++		ret = 0;
++		break;
++#endif
+ 	}
+ 
+ 	if (ret != -ENOIOCTLCMD)

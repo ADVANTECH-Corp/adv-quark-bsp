@@ -1,0 +1,53 @@
+diff -ruN '--exclude=.svn' linux-3.24.28.orig/fs/proc/board.c linux-3.14.28/fs/proc/board.c
+--- linux-3.24.28.orig/fs/proc/board.c	1970-01-01 08:00:00.000000000 +0800
++++ linux-3.14.28/fs/proc/board.c	2015-10-23 11:33:07.363356115 +0800
+@@ -0,0 +1,38 @@
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++
++char board_type[20];
++
++static int board_proc_show(struct seq_file *m, void *v)
++{
++#ifdef CONFIG_UBC221
++	strcpy(board_type, "UBC-221");
++#endif
++#ifdef CONFIG_UBC222
++	strcpy(board_type, "UBC-222");
++#endif
++	seq_printf(m, "%s", board_type);
++	return 0;
++}
++
++static int board_proc_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, board_proc_show, NULL);
++}
++
++static const struct file_operations board_proc_fops = {
++	.open		= board_proc_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= single_release,
++};
++
++static int __init proc_board_init(void)
++{
++	proc_create("board", 0, NULL, &board_proc_fops);
++	return 0;
++}
++module_init(proc_board_init);
+diff -ruN '--exclude=.svn' linux-3.24.28.orig/fs/proc/Makefile linux-3.14.28/fs/proc/Makefile
+--- linux-3.24.28.orig/fs/proc/Makefile	2015-11-12 01:13:09.445758916 +0800
++++ linux-3.14.28/fs/proc/Makefile	2015-11-17 14:58:35.869256347 +0800
+@@ -23,6 +23,7 @@
+ proc-y	+= softirqs.o
+ proc-y	+= namespaces.o
+ proc-y	+= self.o
++proc-$(CONFIG_ARCH_ADVANTECH)	+= board.o
+ proc-$(CONFIG_PROC_SYSCTL)	+= proc_sysctl.o
+ proc-$(CONFIG_NET)		+= proc_net.o
+ proc-$(CONFIG_PROC_KCORE)	+= kcore.o

@@ -1,0 +1,20 @@
+diff -ruN '--exclude=.svn' linux-3.24.28.orig/arch/x86/Kconfig linux-3.14.28/arch/x86/Kconfig
+--- linux-3.24.28.orig/arch/x86/Kconfig	2015-11-12 01:14:48.485757167 +0800
++++ linux-3.14.28-ltsi/arch/x86/Kconfig	2015-11-16 17:28:03.406623613 +0800
+@@ -18,6 +18,16 @@
+ 	select X86_DEV_DMA_OPS
+ 	select ARCH_USE_CMPXCHG_LOCKREF
+ 
++### ADVANTECH CONFIG
++config ARCH_ADVANTECH
++	def_bool y
++
++config UBC221
++       bool "UBC221 BOARD CONFIG"
++
++config UBC222
++       bool "UBC222 BOARD CONFIG"
++
+ ### Arch settings
+ config X86
+ 	def_bool y
