@@ -53,3 +53,14 @@ alias l=ll
 EOF
 }
 
+# CAgent
+IMAGE_INSTALL += " curl curl-dev libxml2 libxml2-dev openssl openssl-dev lsb "
+# MQTT OMA-DM
+IMAGE_INSTALL += " mosquitto mosquitto-dev libdmclient libdmclient-dev "
+
+#Install for building RMM
+TOOLCHAIN_TARGET_TASK += "\
+   curl curl-dev \
+   mosquitto mosquitto-dev \
+   c-ares \
+   "
