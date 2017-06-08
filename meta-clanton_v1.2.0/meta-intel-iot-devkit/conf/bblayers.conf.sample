@@ -15,6 +15,7 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-netcontiki \
   ##OEROOT##/meta-openembedded/meta-networking \
   ##OEROOT##/meta-advantech \
+  ##OEROOT##/meta-gateway/meta-advantech-addons \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
