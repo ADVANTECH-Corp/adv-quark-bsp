@@ -16,6 +16,7 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-openembedded/meta-networking \
   ##OEROOT##/meta-advantech \
   ##OEROOT##/meta-gateway/meta-advantech-addons \
+  ##OEROOT##/meta-gateway/meta-kt-project-addons \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
