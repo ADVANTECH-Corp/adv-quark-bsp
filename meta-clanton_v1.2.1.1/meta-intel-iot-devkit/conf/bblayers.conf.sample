@@ -17,6 +17,7 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-advantech/meta-intel-quark \
   ##OEROOT##/meta-advantech/meta-tools \
   ##OEROOT##/meta-advantech/meta-WISE-PaaS \
+  ##OEROOT##/meta-advantech/meta-Edge-Sense \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
